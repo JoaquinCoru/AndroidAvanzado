@@ -9,4 +9,9 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="login">Login</string>
+    <string name="insert_your_password">Insert your password</string>
+    <string name="insert_your_name">Insert your email</string>
+    <string name="invalid_user">User should not be empty</string>
+    <string name="invalid_password">Password must contains at least 3 chars</string>
 </resources>
