@@ -12,6 +12,9 @@ import retrofit2.http.POST
 
 interface DragonBallAPI {
 
+    @POST("api/auth/login")
+    suspend fun login():String
+
     @GET("api/data/bootcamps")
     suspend fun getBootcamps(): List<Bootcamp>
 

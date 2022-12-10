@@ -19,6 +19,11 @@ class RepositoryImpl @Inject constructor(
     private val localToPresentationMapper: LocalToPresentationMapper
 ): Repository {
 
+
+    override suspend fun login(): String {
+        return  remoteDataSource.login()
+    }
+
     override suspend fun getBootcamps(): List<Bootcamp> {
         return remoteDataSource.getBootcamps()
     }
@@ -26,6 +31,7 @@ class RepositoryImpl @Inject constructor(
     override suspend fun getHeros(): List<SuperHero> {
         return remoteToPresentationMapper.map(remoteDataSource.getHeros())
     }
+
 
     override suspend fun getHerosWithCache(): List<SuperHero> {
         // 1º Pido los datos a local
@@ -41,4 +47,5 @@ class RepositoryImpl @Inject constructor(
         // 4º Devuelvo datos local
         return localToPresentationMapper.map(localDataSource.getHeros())
     }
+
 }

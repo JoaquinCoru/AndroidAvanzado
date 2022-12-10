@@ -7,7 +7,9 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import com.keepcoding.androidavanzado.R
 import com.keepcoding.androidavanzado.databinding.ActivityLoginBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding

@@ -5,6 +5,7 @@ import com.keepcoding.androidavanzado.domain.Bootcamp
 
 
 interface RemoteDataSource {
+    suspend fun login():String
     suspend fun getBootcamps(): List<Bootcamp>
     suspend fun getHeros(): List<SuperHeroRemote>
 }
