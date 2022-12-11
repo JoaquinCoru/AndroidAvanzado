@@ -6,19 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.keepcoding.androidavanzado.R
 import com.keepcoding.androidavanzado.databinding.FragmentSuperheroListBinding
+import com.keepcoding.androidavanzado.domain.SuperHero
 import com.keepcoding.androidavanzado.ui.commons.SuperHeroListAdapter
+import com.keepcoding.androidavanzado.ui.commons.SuperHeroListAdapterCallback
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 @AndroidEntryPoint
-class SuperHeroListFragment : Fragment() {
+class SuperHeroListFragment : Fragment(), SuperHeroListAdapterCallback {
 
     private var _binding: FragmentSuperheroListBinding? = null
 
@@ -26,7 +27,7 @@ class SuperHeroListFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
-    private val adapter = SuperHeroListAdapter()
+    private val adapter = SuperHeroListAdapter(this)
     private val viewModel: SuperHeroListViewModel by viewModels()
 
     override fun onCreateView(
@@ -58,6 +59,16 @@ class SuperHeroListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onHeroClicked(superHero: SuperHero) {
+
+        findNavController().navigate(R.id.action_ListFragment_to_DetailFragment)
+/*        val fragment = DetailFragment()
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.nav_host_fragment_content_main, fragment)
+            .addToBackStack(HomeActivity::javaClass.name)
+            .commit()*/
     }
 
 }

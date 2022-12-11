@@ -10,7 +10,11 @@ import com.keepcoding.androidavanzado.R
 import com.keepcoding.androidavanzado.databinding.ItemListBinding
 import com.keepcoding.androidavanzado.domain.SuperHero
 
-class SuperHeroListAdapter :
+interface SuperHeroListAdapterCallback{
+    fun onHeroClicked(superHero: SuperHero)
+}
+
+class SuperHeroListAdapter(private val callback:SuperHeroListAdapterCallback) :
     ListAdapter<SuperHero, SuperHeroListAdapter.SuperHeroViewHolder>(SuperHeroDiffCallback()) {
 
 
@@ -24,13 +28,17 @@ class SuperHeroListAdapter :
         holder.bind(getItem(position))
     }
 
-    class SuperHeroViewHolder(private val binding: ItemListBinding) :
+   inner class SuperHeroViewHolder(private val binding: ItemListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(superHero: SuperHero) {
             with(binding) {
                 superheroName.text = superHero.name
                 superheroImage.load(superHero.photo)
+
+                root.setOnClickListener {
+                    callback.onHeroClicked(superHero)
+                }
             }
         }
     }

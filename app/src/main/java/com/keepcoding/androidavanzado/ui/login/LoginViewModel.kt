@@ -80,13 +80,13 @@ class LoginViewModel @Inject constructor(
             true
     }
 
-    fun setValueOnMainThread(value: LoginActivityState) {
+    private fun setValueOnMainThread(value: LoginActivityState) {
         viewModelScope.launch(Dispatchers.Main) {
             stateLiveData.value = value
         }
     }
 
-    fun encodeBase64(text: String): String {
+    private fun encodeBase64(text: String): String {
         val data: ByteArray = text.toByteArray(StandardCharsets.UTF_8)
 
         return Base64.encodeToString(data, Base64.NO_WRAP)
