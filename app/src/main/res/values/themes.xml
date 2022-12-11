@@ -23,4 +23,13 @@
 
     <style name="Theme.AndroidAvanzado.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Theme.DragonBallKeepCoding.EditText" parent="Theme.AndroidAvanzado">
+        <item name="marginHorizontal">@dimen/margin_medium</item>
+        <item name="android:ems">10</item>
+        <item name="android:elevation">2sp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColorHint">@color/grey</item>
+        <item name="background">@color/white</item>
+    </style>
+
 </resources>
