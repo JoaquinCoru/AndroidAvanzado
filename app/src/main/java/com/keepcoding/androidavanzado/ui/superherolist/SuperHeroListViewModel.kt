@@ -38,21 +38,6 @@ class SuperHeroListViewModel @Inject constructor(private val repository: Reposit
     val heros: LiveData<List<SuperHero>>
         get() = _heros
 
-    companion object {
-        var TOKEN =
-            "eyJhbGciOiJIUzI1NiIsImtpZCI6InByaXZhdGUiLCJ0eXAiOiJKV1QifQ.eyJpZGVudGlmeSI6IjdDNzQ1NjRCLTQ5NUEtNDhCRC04QzIyLTM5OEUwOUREODY0MyIsImV4cGlyYXRpb24iOjY0MDkyMjExMjAwLCJlbWFpbCI6Imp1YW5qZS5jaWxsYTFAZ21haWwuY29tIn0.epMHxtAkVu_fT5FvQwKrm_fRqzT9UOG2gpiTTipQajw"
-        private val TAG = "ListViewModel: "
-
-    }
-
-    fun getBootcamps() {
-        viewModelScope.launch {
-            val bootcamps = withContext(Dispatchers.IO) {
-                repository.getBootcamps()
-            }
-            Log.d(TAG, bootcamps.toString())
-        }
-    }
 
     fun getSuperheros() {
         viewModelScope.launch {

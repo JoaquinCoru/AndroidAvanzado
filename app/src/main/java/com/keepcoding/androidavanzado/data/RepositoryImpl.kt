@@ -1,14 +1,12 @@
 package com.keepcoding.androidavanzado.data
 
 import com.keepcoding.androidavanzado.data.local.LocalDataSource
-import com.keepcoding.androidavanzado.data.local.LocalDataSourceImpl
 import com.keepcoding.androidavanzado.data.mappers.LocalToPresentationMapper
 import com.keepcoding.androidavanzado.data.mappers.RemoteToLocalMapper
 import com.keepcoding.androidavanzado.data.mappers.RemoteToPresentationMapper
 import com.keepcoding.androidavanzado.data.remote.RemoteDataSource
-import com.keepcoding.androidavanzado.data.remote.RemoteDataSourceImpl
-import com.keepcoding.androidavanzado.domain.Bootcamp
 import com.keepcoding.androidavanzado.domain.SuperHero
+import retrofit2.HttpException
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -20,12 +18,25 @@ class RepositoryImpl @Inject constructor(
 ): Repository {
 
 
-    override suspend fun login(): String {
-        return  remoteDataSource.login()
-    }
+    override suspend fun login(): LoginState {
+        val result =  remoteDataSource.login()
 
-    override suspend fun getBootcamps(): List<Bootcamp> {
-        return remoteDataSource.getBootcamps()
+        return when{
+            result.isSuccess -> LoginState.Success(result.getOrThrow())
+            else ->{
+                when (val exception = result.exceptionOrNull()){
+                    is HttpException -> LoginState.NetworkFailure(
+                        exception.code(),
+                        exception.message
+                    )
+                    else -> {
+                        LoginState.Failure(
+                            result.exceptionOrNull()?.message
+                        )
+                    }
+                }
+            }
+        }
     }
 
     override suspend fun getHeros(): List<SuperHero> {

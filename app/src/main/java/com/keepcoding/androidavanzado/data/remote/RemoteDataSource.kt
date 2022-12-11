@@ -1,11 +1,9 @@
 package com.keepcoding.androidavanzado.data.remote
 
 import com.keepcoding.androidavanzado.data.remote.response.SuperHeroRemote
-import com.keepcoding.androidavanzado.domain.Bootcamp
 
 
 interface RemoteDataSource {
-    suspend fun login():String
-    suspend fun getBootcamps(): List<Bootcamp>
+    suspend fun login():Result<String>
     suspend fun getHeros(): List<SuperHeroRemote>
 }

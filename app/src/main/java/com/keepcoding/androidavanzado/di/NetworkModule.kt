@@ -19,6 +19,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -51,13 +52,24 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val originalRequest = chain.request()
-                val newRequest = originalRequest.newBuilder()
-//                .header("Authorization", "Bearer $TOKEN")
+                val newRequestBuilder = originalRequest.newBuilder()
                     .header("Content-Type", "Application/Text")
-                    .build()
+                var newRequest: Request
+                        if (originalRequest.url.encodedPath.contains("api/auth/login")){
+                            newRequest = newRequestBuilder
+                                .header("Authorization","Basic ${sharedPreferences.getString(
+                                    LOGIN_BASIC_TOKEN_KEY,"")}")
+                                .build()
+                        }else{
+                            newRequest = newRequestBuilder
+                                .header("Authorization","Bearer ${sharedPreferences.getString(
+                                    ACCESS_TOKEN_KEY,"")}")
+                                .build()
+                        }
+
                 chain.proceed(newRequest)
             }
-            .authenticator { _, response ->
+/*            .authenticator { _, response ->
                 Log.d("HOLA", "${response.request.url} ${response.code}")
                 if (response.request.url.encodedPath.contains("api/auth/login")) {
                     response.request.newBuilder().header("Authorization", "Basic ${sharedPreferences.getString(
@@ -67,7 +79,7 @@ object NetworkModule {
                         .header("Authorization", "Bearer ${sharedPreferences.getString(
                             ACCESS_TOKEN_KEY,"")}").build()
                 }
-            }
+            }*/
             .addInterceptor(httpLoggingInterceptor)
             .build()
     }

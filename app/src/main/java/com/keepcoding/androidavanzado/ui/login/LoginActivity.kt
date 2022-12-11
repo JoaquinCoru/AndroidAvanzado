@@ -3,10 +3,12 @@ package com.keepcoding.androidavanzado.ui.login
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.keepcoding.androidavanzado.R
 import com.keepcoding.androidavanzado.databinding.ActivityLoginBinding
+import com.keepcoding.androidavanzado.ui.HomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,11 +45,28 @@ class LoginActivity : AppCompatActivity() {
                 is LoginViewModel.LoginActivityState.InvalidPassword -> {
                     Toast.makeText(this, getString(R.string.invalid_password), Toast.LENGTH_LONG).show()
                 }
-                else -> {
-                    Log.d(LoginActivity::javaClass.name, "To implement")
+                is LoginViewModel.LoginActivityState.Error -> {
+                    showLoading(false)
+                    Toast.makeText(this,"Error: ${loginState.message}",Toast.LENGTH_LONG).show()
+                }
+                is LoginViewModel.LoginActivityState.Loading -> {
+                    showLoading(true)
+                }
+                is LoginViewModel.LoginActivityState.LoginSuccess -> {
+                    showLoading(false)
+                    goToHomeActivity()
                 }
             }
         }
+    }
+
+    private fun showLoading(show: Boolean) {
+        binding.pbLoading.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+    private fun goToHomeActivity(){
+        HomeActivity.start(this)
+        finish()
     }
 
 }

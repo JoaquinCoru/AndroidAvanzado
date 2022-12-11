@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.keepcoding.androidavanzado.data.LoginState
 import com.keepcoding.androidavanzado.data.Repository
 import com.keepcoding.androidavanzado.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,24 +34,31 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun launchLoginRequest(user: String, password: String) {
-       var  loginBasicToken = encodeBase64("$user:$password")
-        Log.d("Basic Token", loginBasicToken)
+       val loginBasicToken = encodeBase64("$user:$password")
+
         with(sharedPreferences){
             val editPreferences = edit()
             editPreferences.putString(LOGIN_BASIC_TOKEN_KEY,loginBasicToken)
             editPreferences.apply()
         }
+        setValueOnMainThread(LoginActivityState.Loading)
 
         viewModelScope.launch {
-            val token = withContext(Dispatchers.IO) {
+            val result = withContext(Dispatchers.IO) {
                 repository.login()
             }
-            Log.d("TOKEN", token)
 
-            with(sharedPreferences){
-                val editPreferences = edit()
-                editPreferences.putString(ACCESS_TOKEN_KEY,token)
-                editPreferences.apply()
+            when (result){
+                is LoginState.Success -> {
+                    setValueOnMainThread(LoginActivityState.LoginSuccess(result.token))
+                    with(sharedPreferences){
+                        val editPreferences = edit()
+                        editPreferences.putString(ACCESS_TOKEN_KEY,result.token)
+                        editPreferences.apply()
+                    }
+                }
+                is LoginState.NetworkFailure -> setValueOnMainThread(LoginActivityState.Error("${result.code}: ${result.message}"))
+                is LoginState.Failure -> {setValueOnMainThread(LoginActivityState.Error(result.error ?: ""))}
             }
 
         }
