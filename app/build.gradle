@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.keepcoding.androidavanzado'
+    namespace 'com.joaquinco.androidavanzado'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.keepcoding.androidavanzado"
+        applicationId "com.joaquinco.androidavanzado"
         minSdk 21
         targetSdk 33
         versionCode 1

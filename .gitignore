@@ -1,0 +1,17 @@
+.gradle/file-system.probe
+.gradle/7.4/checksums/md5-checksums.bin
+.gradle/7.4/executionHistory/executionHistory.lock
+.gradle/7.4/fileHashes/fileHashes.lock
+.gradle/buildOutputCleanup/buildOutputCleanup.lock
+.gradle/7.4/executionHistory/executionHistory.bin
+.gradle/7.4/fileHashes/fileHashes.bin
+.gradle/7.4/fileHashes/resourceHashesCache.bin
+.gradle/buildOutputCleanup/cache.properties
+.gradle/buildOutputCleanup/outputFiles.bin
+.idea/gradle.xml
+.idea/misc.xml
+build/kotlin/sessions/kotlin-compiler-904165846807218275.salive
+local.properties
+.gradle/7.4/checksums/checksums.lock
+.gradle/7.4/checksums/sha1-checksums.bin
+.gradle/7.4/dependencies-accessors/dependencies-accessors.lock
