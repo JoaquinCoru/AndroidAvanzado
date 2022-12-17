@@ -27,9 +27,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/tvHeroName"
+        android:layout_marginBottom="@dimen/margin_medium"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/margin_medium">
+        app:layout_constraintTop_toBottomOf="@id/tvHeroName">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -52,11 +52,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/margin_medium"
-                app:layout_constraintTop_toBottomOf="@id/tvDescription"
-                android:text="@string/locations_title"/>
+                android:text="@string/locations_title"
+                app:layout_constraintTop_toBottomOf="@id/tvDescription" />
+
+            <fragment
+                android:id="@+id/map"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginHorizontal="@dimen/margin_medium"
+                app:layout_constraintTop_toBottomOf="@id/tvLocations" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-        
+
 
     </ScrollView>
 
