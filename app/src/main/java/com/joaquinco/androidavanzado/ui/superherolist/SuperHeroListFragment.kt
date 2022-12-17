@@ -63,12 +63,10 @@ class SuperHeroListFragment : Fragment(), SuperHeroListAdapterCallback {
 
     override fun onHeroClicked(superHero: SuperHero) {
 
-        findNavController().navigate(R.id.action_ListFragment_to_DetailFragment)
-/*        val fragment = DetailFragment()
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.nav_host_fragment_content_main, fragment)
-            .addToBackStack(HomeActivity::javaClass.name)
-            .commit()*/
+        findNavController().navigate(SuperHeroListFragmentDirections.actionListFragmentToDetailFragment(
+            superHero.name
+        ))
+
     }
 
 }

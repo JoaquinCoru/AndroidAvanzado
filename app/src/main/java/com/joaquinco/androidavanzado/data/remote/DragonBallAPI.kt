@@ -12,4 +12,5 @@ interface DragonBallAPI {
 
     @POST("api/heros/all")
     suspend fun getHeros(@Body herosRequest: HerosRequest): List<SuperHeroRemote>
+
 }

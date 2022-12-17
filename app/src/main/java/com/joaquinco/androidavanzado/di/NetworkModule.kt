@@ -23,8 +23,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 object NetworkModule {
 
     @Provides
-    fun providesSharedPreferences(@ApplicationContext context: Context): SharedPreferences{
-        return  context.getSharedPreferences("SharedPreferences", Context.MODE_PRIVATE)
+    fun providesSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
+        return context.getSharedPreferences("SharedPreferences", Context.MODE_PRIVATE)
     }
 
     @Provides
@@ -42,38 +42,40 @@ object NetworkModule {
     }
 
     @Provides
-    fun providesOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor, sharedPreferences: SharedPreferences): OkHttpClient {
+    fun providesOkHttpClient(
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        sharedPreferences: SharedPreferences
+    ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val originalRequest = chain.request()
                 val newRequestBuilder = originalRequest.newBuilder()
                     .header("Content-Type", "Application/Text")
                 var newRequest: Request
-                        if (originalRequest.url.encodedPath.contains("api/auth/login")){
-                            newRequest = newRequestBuilder
-                                .header("Authorization","Basic ${sharedPreferences.getString(
-                                    LOGIN_BASIC_TOKEN_KEY,"")}")
-                                .build()
-                        }else{
-                            newRequest = newRequestBuilder
-                                .header("Authorization","Bearer ${sharedPreferences.getString(
-                                    ACCESS_TOKEN_KEY,"")}")
-                                .build()
-                        }
+                if (originalRequest.url.encodedPath.contains("api/auth/login")) {
+                    newRequest = newRequestBuilder
+                        .header(
+                            "Authorization", "Basic ${
+                                sharedPreferences.getString(
+                                    LOGIN_BASIC_TOKEN_KEY, ""
+                                )
+                            }"
+                        )
+                        .build()
+                } else {
+                    newRequest = newRequestBuilder
+                        .header(
+                            "Authorization", "Bearer ${
+                                sharedPreferences.getString(
+                                    ACCESS_TOKEN_KEY, ""
+                                )
+                            }"
+                        )
+                        .build()
+                }
 
                 chain.proceed(newRequest)
             }
-/*            .authenticator { _, response ->
-                Log.d("HOLA", "${response.request.url} ${response.code}")
-                if (response.request.url.encodedPath.contains("api/auth/login")) {
-                    response.request.newBuilder().header("Authorization", "Basic ${sharedPreferences.getString(
-                        LOGIN_BASIC_TOKEN_KEY,"")}").build()
-                } else {
-                    response.request.newBuilder()
-                        .header("Authorization", "Bearer ${sharedPreferences.getString(
-                            ACCESS_TOKEN_KEY,"")}").build()
-                }
-            }*/
             .addInterceptor(httpLoggingInterceptor)
             .build()
     }

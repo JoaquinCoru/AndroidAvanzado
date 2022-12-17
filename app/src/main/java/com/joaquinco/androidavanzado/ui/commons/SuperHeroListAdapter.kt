@@ -33,7 +33,7 @@ class SuperHeroListAdapter(private val callback:SuperHeroListAdapterCallback) :
 
         fun bind(superHero: SuperHero) {
             with(binding) {
-                superheroName.text = superHero.name
+                tvHeroName.text = superHero.name
                 superheroImage.load(superHero.photo)
 
                 root.setOnClickListener {
