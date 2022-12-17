@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joaquinco.androidavanzado.data.LoginState
-import com.joaquinco.androidavanzado.data.Repository
+import com.joaquinco.androidavanzado.domain.Repository
 import com.joaquinco.androidavanzado.utils.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

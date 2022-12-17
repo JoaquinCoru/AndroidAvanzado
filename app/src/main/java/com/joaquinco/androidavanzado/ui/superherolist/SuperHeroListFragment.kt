@@ -65,7 +65,8 @@ class SuperHeroListFragment : Fragment(), SuperHeroListAdapterCallback {
 
         findNavController().navigate(
             SuperHeroListFragmentDirections.actionListFragmentToDetailFragment(
-                superHero.name
+                superHero.name,
+                superHero.id
             )
         )
 

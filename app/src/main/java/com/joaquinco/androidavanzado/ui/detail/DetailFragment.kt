@@ -1,6 +1,7 @@
 package com.joaquinco.androidavanzado.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -50,6 +51,16 @@ class DetailFragment : Fragment() , OnMapReadyCallback{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeViewModel()
+
+        viewModel.getHeroDetail(args.heroName)
+        viewModel.getHeroLocations(args.heroId)
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+        mapFragment?.getMapAsync(this)
+    }
+
+    fun observeViewModel(){
+
         viewModel.state.observe(viewLifecycleOwner){
             when(it){
                 is DetailState.Success -> {
@@ -63,10 +74,10 @@ class DetailFragment : Fragment() , OnMapReadyCallback{
             }
         }
 
+        viewModel.locations.observe(viewLifecycleOwner){
+            Log.d(javaClass.name,"Localizaciones: $it")
+        }
 
-        viewModel.getHeroDetail(args.heroName)
-        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
-        mapFragment?.getMapAsync(this)
     }
 
     override fun onDestroyView() {

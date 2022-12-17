@@ -5,6 +5,8 @@ import com.joaquinco.androidavanzado.data.mappers.LocalToPresentationMapper
 import com.joaquinco.androidavanzado.data.mappers.RemoteToLocalMapper
 import com.joaquinco.androidavanzado.data.mappers.RemoteToPresentationMapper
 import com.joaquinco.androidavanzado.data.remote.RemoteDataSource
+import com.joaquinco.androidavanzado.domain.Location
+import com.joaquinco.androidavanzado.domain.Repository
 import com.joaquinco.androidavanzado.domain.SuperHero
 import com.joaquinco.androidavanzado.ui.detail.DetailState
 import retrofit2.HttpException
@@ -80,6 +82,10 @@ class RepositoryImpl @Inject constructor(
                 }
             }
         }
+    }
+
+    override suspend fun getLocations(id: String): List<Location> {
+        return remoteToPresentationMapper.mapLocations(remoteDataSource.getLocations(id))
     }
 
 }

@@ -1,6 +1,6 @@
 package com.joaquinco.androidavanzado.di
 
-import com.joaquinco.androidavanzado.data.Repository
+import com.joaquinco.androidavanzado.domain.Repository
 import com.joaquinco.androidavanzado.data.RepositoryImpl
 import com.joaquinco.androidavanzado.data.local.LocalDataSource
 import com.joaquinco.androidavanzado.data.local.LocalDataSourceImpl
