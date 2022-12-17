@@ -6,6 +6,7 @@ import com.joaquinco.androidavanzado.data.mappers.RemoteToLocalMapper
 import com.joaquinco.androidavanzado.data.mappers.RemoteToPresentationMapper
 import com.joaquinco.androidavanzado.data.remote.RemoteDataSource
 import com.joaquinco.androidavanzado.domain.SuperHero
+import com.joaquinco.androidavanzado.ui.detail.DetailState
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -16,7 +17,6 @@ class RepositoryImpl @Inject constructor(
     private val remoteToLocalMapper: RemoteToLocalMapper,
     private val localToPresentationMapper: LocalToPresentationMapper
 ): Repository {
-
 
     override suspend fun login(): LoginState {
         val result =  remoteDataSource.login()
@@ -43,7 +43,6 @@ class RepositoryImpl @Inject constructor(
         return remoteToPresentationMapper.map(remoteDataSource.getHeros())
     }
 
-
     override suspend fun getHerosWithCache(): List<SuperHero> {
         // 1º Pido los datos a local
         val localSuperHeros = localDataSource.getHeros()
@@ -57,6 +56,30 @@ class RepositoryImpl @Inject constructor(
         }
         // 4º Devuelvo datos local
         return localToPresentationMapper.map(localDataSource.getHeros())
+    }
+
+    override suspend fun getHeroDetail(name: String): DetailState {
+        val result = remoteDataSource.getHeroDetail(name)
+        return when {
+            result.isSuccess -> {
+                result.getOrNull()?.let { DetailState.Success(remoteToPresentationMapper.mapDetail(it)) }
+                    ?: DetailState.Failure(
+                        result.exceptionOrNull()?.message
+                    )
+            }
+            else -> {
+                when (val exception = result.exceptionOrNull()) {
+                    is HttpException -> DetailState.NetworkFailure(
+                        exception.code()
+                    )
+                    else -> {
+                        DetailState.Failure(
+                            result.exceptionOrNull()?.message
+                        )
+                    }
+                }
+            }
+        }
     }
 
 }

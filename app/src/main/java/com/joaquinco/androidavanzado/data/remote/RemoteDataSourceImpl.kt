@@ -14,7 +14,7 @@ class RemoteDataSourceImpl @Inject constructor(private val api: DragonBallAPI): 
         return api.getHeros(HerosRequest())
     }
 
-    override suspend fun getHeroDetail(name: String): Result<SuperHeroRemote> {
+    override suspend fun getHeroDetail(name: String): Result<SuperHeroRemote?> {
         return runCatching { api.getHeros(HerosRequest(name)).first()}
     }
 }

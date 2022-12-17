@@ -63,9 +63,11 @@ class SuperHeroListFragment : Fragment(), SuperHeroListAdapterCallback {
 
     override fun onHeroClicked(superHero: SuperHero) {
 
-        findNavController().navigate(SuperHeroListFragmentDirections.actionListFragmentToDetailFragment(
-            superHero.name
-        ))
+        findNavController().navigate(
+            SuperHeroListFragmentDirections.actionListFragmentToDetailFragment(
+                superHero.name
+            )
+        )
 
     }
 

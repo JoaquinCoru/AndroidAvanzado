@@ -5,8 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import coil.load
 import com.joaquinco.androidavanzado.R
 import com.joaquinco.androidavanzado.databinding.FragmentDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +27,7 @@ class DetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val args:DetailFragmentArgs by navArgs()
+    private val viewModel: DetailViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +42,21 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.tvHeroName.text = args.heroName
+        viewModel.state.observe(viewLifecycleOwner){
+            when(it){
+                is DetailState.Success -> {
+                    binding.tvHeroName.text = it.hero.name
+                    binding.tvDescription.text = it.hero.description
+                    binding.ivHero.load(it.hero.photo)
+                }
+                else -> {
+                    Toast.makeText(requireContext(),"Error: ", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
+
+        viewModel.getHeroDetail(args.heroName)
     }
 
     override fun onDestroyView() {
