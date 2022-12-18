@@ -1,6 +1,7 @@
 package com.joaquinco.androidavanzado.data.remote
 
 import com.joaquinco.androidavanzado.data.remote.request.HerosRequest
+import com.joaquinco.androidavanzado.data.remote.request.LikeRequest
 import com.joaquinco.androidavanzado.data.remote.request.LocationsRequest
 import com.joaquinco.androidavanzado.data.remote.response.LocationRemote
 import com.joaquinco.androidavanzado.data.remote.response.SuperHeroRemote
@@ -22,5 +23,9 @@ class RemoteDataSourceImpl @Inject constructor(private val api: DragonBallAPI): 
 
     override suspend fun getLocations(id: String): List<LocationRemote> {
         return  api.getLocations(LocationsRequest(id))
+    }
+
+    override suspend fun setLike(id: String): Result<Unit> {
+        return runCatching { api.setLike(LikeRequest(id)) }
     }
 }

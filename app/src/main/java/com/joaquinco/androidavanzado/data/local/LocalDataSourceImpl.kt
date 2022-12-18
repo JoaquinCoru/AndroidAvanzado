@@ -13,4 +13,8 @@ class LocalDataSourceImpl @Inject constructor(private val dao: SuperHeroDAO): Lo
     override fun insertHeros(remoteSuperHeros: List<SuperHeroLocal>) {
         dao.insertAll(remoteSuperHeros)
     }
+
+    override fun insertHero(localHero: SuperHeroLocal) {
+        dao.updateSuperHero(localHero)
+    }
 }

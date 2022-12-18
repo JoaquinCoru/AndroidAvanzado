@@ -19,15 +19,17 @@
         style="@style/TextAppearance.AppCompat.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/margin_medium"
+        android:paddingHorizontal="@dimen/margin_medium"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivHero"
+        app:layout_constraintTop_toTopOf="@id/ivHeart"
+        app:layout_constraintBottom_toBottomOf="@id/ivHeart"
         tools:text="Nombre Héroe" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvHeroName">
 
@@ -55,18 +57,29 @@
                 android:text="@string/locations_title"
                 app:layout_constraintTop_toBottomOf="@id/tvDescription" />
 
-            <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginHorizontal="@dimen/margin_medium"
-                app:layout_constraintTop_toBottomOf="@id/tvLocations" />
+                  <fragment
+                      android:id="@+id/map"
+                      android:name="com.google.android.gms.maps.SupportMapFragment"
+                      android:layout_width="match_parent"
+                      android:layout_height="300dp"
+                      android:layout_marginHorizontal="@dimen/margin_medium"
+                      app:layout_constraintTop_toBottomOf="@id/tvLocations" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     </ScrollView>
+
+    <ImageView
+        android:id="@+id/ivHeart"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintTop_toBottomOf="@id/ivHero"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:src="@drawable/white_heart"/>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

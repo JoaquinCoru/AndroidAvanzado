@@ -9,4 +9,5 @@ interface RemoteDataSource {
     suspend fun getHeros(): List<SuperHeroRemote>
     suspend fun getHeroDetail(name: String): Result<SuperHeroRemote?>
     suspend fun getLocations(id: String): List<LocationRemote>
+    suspend fun setLike(id:String): Result<Unit>
 }

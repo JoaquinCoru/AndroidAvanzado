@@ -26,6 +26,10 @@ class DetailViewModel @Inject constructor(
     val locations: LiveData<List<Location>>
         get() = _locations
 
+    private val _likeState = MutableLiveData<LikeState>()
+    val likeState: LiveData<LikeState>
+        get() = _likeState
+
     fun getHeroDetail(name: String) {
         viewModelScope.launch {
             val detailState = withContext(Dispatchers.IO) {
@@ -41,6 +45,23 @@ class DetailViewModel @Inject constructor(
                 repository.getLocations(id)
             }
             _locations.value = locationsResult
+        }
+    }
+
+    fun setLike(){
+        if (_state.value is DetailState.Success){
+            val newState = _state.value as DetailState.Success
+
+            newState.hero.favorite = !newState.hero.favorite
+
+            viewModelScope.launch {
+                val likeResult = withContext(Dispatchers.IO){
+                    repository.setLike(newState.hero)
+                }
+                _likeState.value = likeResult
+                _state.value = newState
+            }
+
         }
     }
 

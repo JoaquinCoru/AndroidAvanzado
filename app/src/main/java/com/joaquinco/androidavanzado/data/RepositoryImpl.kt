@@ -8,7 +8,9 @@ import com.joaquinco.androidavanzado.data.remote.RemoteDataSource
 import com.joaquinco.androidavanzado.domain.Location
 import com.joaquinco.androidavanzado.domain.Repository
 import com.joaquinco.androidavanzado.domain.SuperHero
+import com.joaquinco.androidavanzado.domain.SuperHeroDetail
 import com.joaquinco.androidavanzado.ui.detail.DetailState
+import com.joaquinco.androidavanzado.ui.detail.LikeState
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -86,6 +88,31 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun getLocations(id: String): List<Location> {
         return remoteToPresentationMapper.mapLocations(remoteDataSource.getLocations(id))
+    }
+
+    override suspend fun setLike(superHeroDetail: SuperHeroDetail): LikeState {
+
+        //LLamo al remoto
+        val result = remoteDataSource.setLike(superHeroDetail.id)
+        return when {
+            result.isSuccess ->{
+                //Si hay éxito actualizo en local
+                localDataSource.insertHero(localToPresentationMapper.map(superHeroDetail))
+                LikeState.Success()
+            }
+            else ->{
+                when (val exception = result.exceptionOrNull()){
+                    is HttpException -> LikeState.NetworkFailure(
+                        exception.code()
+                    )
+                    else -> {
+                        LikeState.Failure(
+                            result.exceptionOrNull()?.message
+                        )
+                    }
+                }
+            }
+        }
     }
 
 }

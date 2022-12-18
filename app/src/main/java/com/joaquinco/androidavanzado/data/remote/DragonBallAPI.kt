@@ -1,6 +1,7 @@
 package com.joaquinco.androidavanzado.data.remote
 
 import com.joaquinco.androidavanzado.data.remote.request.HerosRequest
+import com.joaquinco.androidavanzado.data.remote.request.LikeRequest
 import com.joaquinco.androidavanzado.data.remote.request.LocationsRequest
 import com.joaquinco.androidavanzado.data.remote.response.LocationRemote
 import com.joaquinco.androidavanzado.data.remote.response.SuperHeroRemote
@@ -17,5 +18,8 @@ interface DragonBallAPI {
 
     @POST("api/heros/locations")
     suspend fun getLocations(@Body locationsRequest: LocationsRequest): List<LocationRemote>
+
+    @POST("api/data/herolike")
+    suspend fun setLike(@Body likeRequest: LikeRequest)
 
 }
