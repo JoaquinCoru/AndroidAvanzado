@@ -5,5 +5,5 @@ import com.joaquinco.androidavanzado.data.local.model.SuperHeroLocal
 interface LocalDataSource {
     fun getHeros(): List<SuperHeroLocal>
     fun insertHeros(remoteSuperHeros: List<SuperHeroLocal>)
-    fun insertHero(localHero: SuperHeroLocal)
+    fun updateHero(localHero: SuperHeroLocal)
 }

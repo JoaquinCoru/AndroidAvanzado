@@ -97,7 +97,7 @@ class RepositoryImpl @Inject constructor(
         return when {
             result.isSuccess ->{
                 //Si hay éxito actualizo en local
-                localDataSource.insertHero(localToPresentationMapper.map(superHeroDetail))
+                localDataSource.updateHero(localToPresentationMapper.map(superHeroDetail))
                 LikeState.Success()
             }
             else ->{
