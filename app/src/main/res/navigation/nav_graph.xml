@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/SuperHeroListFragment">
+    app:startDestination="@id/list_fragment">
 
     <fragment
-        android:id="@+id/SuperHeroListFragment"
+        android:id="@+id/list_fragment"
         android:name="com.joaquinco.androidavanzado.ui.superherolist.SuperHeroListFragment"
-        android:label="@string/superhero_list_fragment_label"
+        android:label="Heroes"
         tools:layout="@layout/fragment_superhero_list">
 
         <action
@@ -18,17 +18,26 @@
     <fragment
         android:id="@+id/DetailFragment"
         android:name="com.joaquinco.androidavanzado.ui.detail.DetailFragment"
-        android:label="@string/detail_fragment_label"
+        android:label="Detalle"
         tools:layout="@layout/fragment_detail">
 
         <action
             android:id="@+id/action_DetailFragment_to_ListFragment"
-            app:destination="@id/SuperHeroListFragment" />
+            app:destination="@id/list_fragment" />
         <argument
             android:name="hero_name"
             app:argType="string" />
         <argument
             android:name="hero_id"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/favorites_fragment"
+        android:name="com.joaquinco.androidavanzado.ui.favorites.FavoritesFragment"
+        android:label="Favoritos"
+        tools:layout="@layout/fragment_favorites">
+        <action
+            android:id="@+id/action_favoritesFragment_to_DetailFragment"
+            app:destination="@id/DetailFragment" />
     </fragment>
 </navigation>

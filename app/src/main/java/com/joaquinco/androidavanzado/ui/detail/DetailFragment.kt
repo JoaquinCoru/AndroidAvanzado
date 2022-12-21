@@ -111,17 +111,19 @@ class DetailFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun loadLocationsInMap(locations: List<Location>) {
-        for (location in locations) {
-            val latlng = LatLng(location.latitud, location.longitud)
-            googleMap.addMarker(
-                MarkerOptions()
-                    .position(latlng)
-                    .title(args.heroName)
-            )
-        }
-        if (locations.isNotEmpty()) {
-            val lastCoordenate = LatLng(locations.last().latitud, locations.last().longitud)
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastCoordenate, 2f))
+        if (this::googleMap.isInitialized){
+            for (location in locations) {
+                val latlng = LatLng(location.latitud, location.longitud)
+                googleMap.addMarker(
+                    MarkerOptions()
+                        .position(latlng)
+                        .title(args.heroName)
+                )
+            }
+            if (locations.isNotEmpty()) {
+                val lastCoordenate = LatLng(locations.last().latitud, locations.last().longitud)
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastCoordenate, 2f))
+            }
         }
 
     }
