@@ -30,6 +30,7 @@ class DetailViewModel @Inject constructor(
     val likeState: LiveData<LikeState>
         get() = _likeState
 
+
     fun getHeroDetail(name: String) {
         viewModelScope.launch {
             val detailState = withContext(Dispatchers.IO) {
