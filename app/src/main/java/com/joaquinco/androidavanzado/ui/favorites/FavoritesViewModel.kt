@@ -19,13 +19,19 @@ class FavoritesViewModel @Inject constructor(private val repository: Repository)
     val favorites: LiveData<List<SuperHero>>
         get() = _favorites
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
 
-    fun getFavorites(){
+    fun getFavorites() {
+        _isLoading.value = true
         viewModelScope.launch {
-            val favoritesList = withContext(Dispatchers.IO){
+
+            val favoritesList = withContext(Dispatchers.IO) {
                 repository.getFavorites()
             }
             _favorites.value = favoritesList
+            _isLoading.value = false
         }
     }
 

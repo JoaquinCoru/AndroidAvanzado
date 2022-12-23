@@ -15,6 +15,7 @@
             android:id="@+id/action_ListFragment_to_DetailFragment"
             app:destination="@id/DetailFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/DetailFragment"
         android:name="com.joaquinco.androidavanzado.ui.detail.DetailFragment"
@@ -31,6 +32,7 @@
             android:name="hero_id"
             app:argType="string" />
     </fragment>
+
     <fragment
         android:id="@+id/favorites_fragment"
         android:name="com.joaquinco.androidavanzado.ui.favorites.FavoritesFragment"
@@ -40,4 +42,5 @@
             android:id="@+id/action_favoritesFragment_to_DetailFragment"
             app:destination="@id/DetailFragment" />
     </fragment>
+
 </navigation>

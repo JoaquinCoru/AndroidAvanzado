@@ -44,6 +44,18 @@ class FavoritesFragment : Fragment(), SuperHeroListAdapterCallback {
             viewModel.favorites.observe(viewLifecycleOwner){ favoritesList ->
                 adapter.submitList(favoritesList)
 
+                viewModel.isLoading.observe(viewLifecycleOwner){isLoading ->
+                    when {
+                        isLoading -> {
+                            progressBar.visibility = View.VISIBLE
+                        }
+                        else -> {
+                            progressBar.visibility = View.INVISIBLE
+                        }
+                    }
+
+                }
+
             }
         }
 
@@ -59,6 +71,12 @@ class FavoritesFragment : Fragment(), SuperHeroListAdapterCallback {
 
     override fun onHeroClicked(superHero: SuperHero) {
 
+        findNavController().navigate(
+            FavoritesFragmentDirections.actionFavoritesFragmentToDetailFragment(
+                superHero.name,
+                superHero.id
+            )
+        )
     }
 
 }
