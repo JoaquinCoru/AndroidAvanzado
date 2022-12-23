@@ -115,4 +115,9 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getFavorites(): List<SuperHero> {
+        return remoteToPresentationMapper.map(remoteDataSource.getHeros().filter { it.favorite })
+    }
+
+
 }

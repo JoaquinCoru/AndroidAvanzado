@@ -11,4 +11,5 @@ interface Repository {
     suspend fun getHeroDetail(name: String): DetailState
     suspend fun getLocations(id: String): List<Location>
     suspend fun setLike(superHeroDetail: SuperHeroDetail): LikeState
+    suspend fun getFavorites():List<SuperHero>
 }
