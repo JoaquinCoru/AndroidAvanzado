@@ -8,6 +8,8 @@ import com.joaquinco.androidavanzado.utils.generateHerosRemote
 import com.joaquinco.androidavanzado.utils.generateLocationsRemote
 import com.joaquinco.androidavanzado.utils.generateSuperHeroDetail
 import com.joaquinco.androidavanzado.utils.generateSuperHeroRemote
+import retrofit2.HttpException
+import retrofit2.Response
 
 class FakeRemoteDataSource: RemoteDataSource {
 
@@ -20,7 +22,13 @@ class FakeRemoteDataSource: RemoteDataSource {
     }
 
     override suspend fun getHeroDetail(name: String): Result<SuperHeroRemote?> {
-        return Result.success(generateSuperHeroRemote())
+        return when(name){
+            "SUCCESS" -> Result.success(SuperHeroRemote("id", "Maestro Roshi", "photo", "description", false))
+            "NETWORK_ERROR" -> Result.failure(HttpException(Response.success(204, {})))
+            "NULL"-> Result.failure(NullPointerException("Null pointer error"))
+            "SUCCESS_BUT_NULL"-> Result.success(null)
+            else -> {Result.failure(Exception())}
+        }
     }
 
     override suspend fun getLocations(id: String): List<LocationRemote> {

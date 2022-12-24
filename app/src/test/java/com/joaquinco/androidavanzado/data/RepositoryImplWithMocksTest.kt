@@ -15,13 +15,12 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
-import okhttp3.ResponseBody
 import org.junit.Before
 import org.junit.Test
 import retrofit2.HttpException
 import retrofit2.Response
 
-class RepositoryImplTest{
+class RepositoryImplWithMocksTest{
 
     private lateinit var repositoryImpl: RepositoryImpl
     private lateinit var localDataSource: LocalDataSource
@@ -53,6 +52,27 @@ class RepositoryImplTest{
     }
 
     @Test
+    fun `WHEN login EXPECT failure with network error `() = runTest{
+        // GIVEN
+        coEvery { remoteDataSource.login() } returns  Result.failure(HttpException(Response.success(204,{})))
+        // WHEN
+        val result = repositoryImpl.login()
+        // THEN
+        assert(result is LoginState.NetworkFailure)
+        assert(((result as LoginState.NetworkFailure).code == 204))
+    }
+
+    @Test
+    fun `WHEN login EXPECT failure with generic error `() = runTest {
+        // GIVEN
+        coEvery { remoteDataSource.login() } returns Result.failure(Exception())
+        // WHEN
+        val result = repositoryImpl.login()
+        // THEN
+        assert(result is LoginState.Failure)
+    }
+
+        @Test
     fun `WHEN getHeros then Success return list from local and remote called`() = runTest{
         // GIVEN
         coEvery { localDataSource.getHeros() } returns emptyList()
@@ -67,50 +87,6 @@ class RepositoryImplTest{
         coVerify(exactly = 2) { localDataSource.getHeros() }
     }
 
-    @Test
-    fun `WHEN getHeros then Success return list from local and remote called with FAKE`() = runTest{
-        // GIVEN
-        val localDataSource = FakeLocalDataSource()
-        repositoryImpl = RepositoryImpl(
-            localDataSource,
-            remoteDataSource,
-            RemoteToPresentationMapper(),
-            RemoteToLocalMapper(),
-            LocalToPresentationMapper()
-        )
-
-        coEvery { remoteDataSource.getHeros() } returns generateHerosRemote()
-
-        // WHEN
-        val actual = repositoryImpl.getHerosWithCache()
-
-        // THEN
-        Truth.assertThat(actual).isNotEmpty()
-        Truth.assertThat(actual.first().name).isEqualTo("Name 0")
-        coVerify { remoteDataSource.getHeros() }
-        Truth.assertThat(actual).containsExactlyElementsIn(generateHeros())
-    }
-
-    @Test
-    fun `WHEN getLocations THEN SUCCESS return not empty list with FAKE`() = runTest{
-        // GIVEN
-        val remoteDataSource = FakeRemoteDataSource()
-        repositoryImpl = RepositoryImpl(
-            localDataSource,
-            remoteDataSource,
-            RemoteToPresentationMapper(),
-            RemoteToLocalMapper(),
-            LocalToPresentationMapper()
-        )
-
-        // WHEN
-        val actual = repositoryImpl.getLocations("ID")
-
-        // THEN
-        Truth.assertThat(actual).isNotEmpty()
-        Truth.assertThat(actual.first().id).isEqualTo("ID: 0")
-        Truth.assertThat(actual).containsExactlyElementsIn(generateLocations())
-    }
 
     @Test
     fun `WHEN getHeroDetail then Success return Success with DetailHero`()= runTest{
